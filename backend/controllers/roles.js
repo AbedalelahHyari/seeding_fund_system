@@ -11,7 +11,7 @@ const createNewRole = (req, res) => {
     .then((role) => {
       res.status(201).json({
         success: true,
-        message: `The role has been created`,
+        message: `The role has been created Successfully`,
         role: role,
       });
     })
