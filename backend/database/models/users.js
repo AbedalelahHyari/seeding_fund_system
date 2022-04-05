@@ -5,7 +5,12 @@ const userSchema = new mongoose.Schema({
   country: { type: String },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: mongoose.Schema.Types.ObjectId, ref: "Role", required: true },
+  role: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Role",
+    required: true,
+    default: "624caf8419f5050bcb965ad9",
+  },
 });
 /******************************************************************************** */
 
