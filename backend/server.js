@@ -9,6 +9,10 @@ app.use(express.json());
 // Import the usersRouter
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
+// import the rolesRouter
+/******************************************************** */
+const rolesRouter = require("./routes/roles");
+app.use("/roles", rolesRouter);
 /********************************************** */
 
 app.listen(process.env.PORT, () => {
