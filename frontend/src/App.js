@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navigation from "./components/Navigation";
 import FundingRequest from "./components/FundingRequest";
+import AdminView from "./components/AdminView";
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/funding" element={<FundingRequest />} />
+          <Route path="/admin" element={<AdminView />} />
         </Routes>
       </div>
     </>

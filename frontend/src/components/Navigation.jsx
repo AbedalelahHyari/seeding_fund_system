@@ -25,6 +25,7 @@ const Navigation = () => {
             <Nav.Link href="#features">Features</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link>
             <Nav.Link href="/funding">Fund Raising</Nav.Link>
+            <Nav.Link href="/admin">Admin Panel</Nav.Link>
             <Button
               onClick={() => {
                 dispatch(logoutRed());
