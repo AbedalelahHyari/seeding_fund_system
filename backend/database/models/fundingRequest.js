@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
 const fundingRequestSchema = new mongoose.Schema({
-  ProjectOwner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  projectOwner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   projectName: { type: String, required: true },
   projectDescription: { type: String },
   projectSector: { type: String, required: true },

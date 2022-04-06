@@ -1,10 +1,9 @@
 const fundingRequestModel = require("../database/models/fundingRequest");
 
 const createNewFundingRequest = (req, res) => {
-  const projectOwner = req.token.userName;
   const { projectName, projectDescription, projectSector } = req.body;
   const newFundingRequest = new fundingRequestModel({
-    projectOwner,
+    projectOwner: req.token.userId,
     projectName,
     projectDescription,
     projectSector,
