@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { loginRed } from "../../src/reducers/login/index";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 /**************************************************************************** */
 const Login = () => {
@@ -7,6 +9,15 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
+  /************************************** */
+  const dispatch = useDispatch();
+  const state = useSelector((state) => {
+    return {
+      token: state.loginReducer.token,
+      isLoggedIn: state.loginReducer.isLoggedIn,
+    };
+  });
+
   /*************************************** */
   const login = () => {
     axios
@@ -17,7 +28,11 @@ const Login = () => {
       .then((result) => {
         if (result.data.success === true) {
           localStorage.setItem("token", result.data.token);
-          console.log(true);
+          dispatch(
+            loginRed({
+              token: result.data.token,
+            })
+          );
           //navigate("/dashboard");
         }
       })
@@ -57,7 +72,7 @@ const Login = () => {
         <a href="/register" className="btn btn-secondary m-4 shadow">
           Go to Register
         </a>
-        <div class="alert">{status}</div>
+        <div className="alert">{status}</div>
       </div>
     </>
   );
