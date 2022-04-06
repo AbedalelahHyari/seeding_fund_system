@@ -13,11 +13,11 @@ const createNewUser = (req, res) => {
   });
   newUser
     .save()
-    .then((user) => {
+    .then((result) => {
       res.status(201).json({
         success: true,
         message: `The User has been created Successfully`,
-        user: user,
+        user: result,
       });
     })
     .catch((err) => {
@@ -39,12 +39,12 @@ const getAllUsers = (req, res) => {
   usersModel
     .find({})
     .populate("role", "-__v -_id")
-    .then((users) => {
-      if (users.length) {
+    .then((result) => {
+      if (result.length) {
         res.status(200).json({
           success: true,
           message: `All The Users`,
-          users: users,
+          users: result,
         });
       } else {
         res.status(404).json({
@@ -57,6 +57,7 @@ const getAllUsers = (req, res) => {
       res.status(500).json({
         success: false,
         message: `No users Yet`,
+        error: err,
       });
     });
 };

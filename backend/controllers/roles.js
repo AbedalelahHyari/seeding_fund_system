@@ -8,11 +8,11 @@ const createNewRole = (req, res) => {
   });
   newRole
     .save()
-    .then((role) => {
+    .then((result) => {
       res.status(201).json({
         success: true,
         message: `The role has been created Successfully`,
-        role: role,
+        role: result,
       });
     })
     .catch((err) => {
@@ -26,17 +26,18 @@ const createNewRole = (req, res) => {
 const getAllRoles = (req, res) => {
   roleModel
     .find({})
-    .then((roles) => {
+    .then((result) => {
       res.status(200).json({
         success: true,
         message: `All The Roles`,
-        roles: roles,
+        roles: result,
       });
     })
     .catch((err) => {
       res.status(500).json({
         success: false,
         message: `Server Error`,
+        error: err,
       });
     });
 };
