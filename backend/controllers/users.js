@@ -3,13 +3,12 @@ const usersModel = require("../database/models/users");
 
 // In this function will create new resource to the database based on the userSchema
 const createNewUser = (req, res) => {
-  const { userName, country, email, password, role } = req.body;
+  const { userName, country, email, password } = req.body;
   const newUser = new usersModel({
     userName,
     country,
     email,
     password,
-    role,
   });
   newUser
     .save()
@@ -21,6 +20,7 @@ const createNewUser = (req, res) => {
       });
     })
     .catch((err) => {
+      console.log(err);
       if (err.keyPattern) {
         return res.status(409).json({
           success: false,
