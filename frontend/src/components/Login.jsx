@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import { loginRed } from "../../src/reducers/login/index";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 /**************************************************************************** */
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [status, setStatus] = useState("");
   const navigate = useNavigate();
   /************************************** */
   const dispatch = useDispatch();
@@ -19,26 +20,34 @@ const Login = () => {
   });
 
   /*************************************** */
-  const login = () => {
-    axios
-      .post("http://localhost:5000/login", {
+  const login = async () => {
+    try {
+      const result = await axios.post("http://localhost:5000/login", {
         email: email,
         password: password,
-      })
-      .then((result) => {
-        if (result.data.success === true) {
-          localStorage.setItem("token", result.data.token);
-          dispatch(
-            loginRed({
-              token: result.data.token,
-            })
-          );
-          //navigate("/dashboard");
-        }
-      })
-      .catch((err) => {
-        setStatus(err.response.data.message);
       });
+      if (result.data.success === true) {
+        localStorage.setItem("token", result.data.token);
+        dispatch(
+          loginRed({
+            token: result.data.token,
+          })
+        );
+        //navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        toast.error(error.response.data.message, {
+          position: "top-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    }
   };
   return (
     <>
@@ -72,7 +81,6 @@ const Login = () => {
         <a href="/register" className="btn btn-secondary m-4 shadow">
           Go to Register
         </a>
-        <div className="alert">{status}</div>
       </div>
     </>
   );

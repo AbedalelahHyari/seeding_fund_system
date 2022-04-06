@@ -31,7 +31,6 @@ const Register = () => {
         });
       }
     } catch (error) {
-      console.log(error);
       if (error.response && error.response.data) {
         toast.error(error.response.data.message, {
           position: "top-right",
