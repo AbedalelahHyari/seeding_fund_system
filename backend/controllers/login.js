@@ -18,7 +18,6 @@ const login = (req, res) => {
       /**************** */
       try {
         const valid = await bcrypt.compare(password, result.password);
-        console.log(valid);
         if (!valid) {
           return res.status(403).json({
             success: false,
