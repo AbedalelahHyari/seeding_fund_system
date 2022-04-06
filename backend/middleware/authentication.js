@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-// This function check the user credentials like email and password
+// This function will verify the user credentials like email and password
 const authentication = (req, res, next) => {
   try {
     if (!req.headers.authorization) {
