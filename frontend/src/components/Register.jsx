@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 /********************************************** */
@@ -9,6 +10,8 @@ const Register = () => {
   const [country, setCountry] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [roles, setRoles] = useState([]);
+  const [role, setRole] = useState("");
   const navigate = useNavigate();
   /*********************************************** */
   const register = async () => {
@@ -18,6 +21,7 @@ const Register = () => {
         country,
         email,
         password,
+        role,
       };
       const res = await axios.post("http://localhost:5000/users", user);
       if (res.data.success) {
@@ -48,6 +52,22 @@ const Register = () => {
       }
     }
   };
+  /*********************************************************** */
+  const getAllRoles = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/roles");
+      if (res.data.success) {
+        setRoles(res.data.roles);
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+  /****************************** */
+  useEffect(() => {
+    getAllRoles();
+  }, []);
+  console.log(role);
   /********************************************************* */
   return (
     <>
@@ -87,10 +107,30 @@ const Register = () => {
             className="form-control mb-4"
             placeholder="Password"
           />
+          <Form.Select
+            onChange={(e) => {
+              setRole(e.target.value);
+            }}
+            className="mb-5"
+            aria-label="Default select example"
+          >
+            <option>Role</option>
+            {roles.length ? (
+              roles.map((role, index) => {
+                return (
+                  <option key={index} value={role._id}>
+                    {role.role}
+                  </option>
+                );
+              })
+            ) : (
+              <></>
+            )}
+          </Form.Select>
           <button onClick={register} className="btn btn-primary">
             Register
           </button>
-          <a href="/" className="btn btn-secondary m-4">
+          <a href="/" className="btn btn-secondary m-5">
             Back to Login
           </a>
         </div>

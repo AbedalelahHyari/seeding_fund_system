@@ -1,12 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import Table from "react-bootstrap/Table";
+import React, { useState, useEffect } from "react";
+import Table from "react-bootstrap/esm/Table";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navigation from "./Navigation";
-/****************************************************************** */
-const AdminView = () => {
+const Profile = () => {
   const [fundingRequests, setFundingRequests] = useState([]);
   const state = useSelector((state) => {
     return {
@@ -15,11 +14,11 @@ const AdminView = () => {
     };
   });
 
-  /************************************ */
+  /************************* */
   useEffect(() => {
-    const getAllFundingRequests = async () => {
+    const getFundingRequestByUserId = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/funding", {
+        const res = await axios.get("http://localhost:5000/funding/user", {
           headers: {
             Authorization: `Bearer ${state.token}`,
           },
@@ -41,8 +40,9 @@ const AdminView = () => {
         }
       }
     };
-    getAllFundingRequests();
-  }, [state.token]);
+    getFundingRequestByUserId();
+  }, []);
+  console.log(fundingRequests);
   /********************************************************** */
   return (
     <>
@@ -84,4 +84,4 @@ const AdminView = () => {
   );
 };
 
-export default AdminView;
+export default Profile;

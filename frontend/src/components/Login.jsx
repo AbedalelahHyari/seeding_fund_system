@@ -1,30 +1,19 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { loginRed } from "../../src/reducers/login/index";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Container from "react-bootstrap/esm/Container";
 /**************************************************************************** */
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  /************************************************************************* */
   const dispatch = useDispatch();
-  const state = useSelector((state) => {
-    return {
-      token: state.loginReducer.token,
-      isLoggedIn: state.loginReducer.isLoggedIn,
-    };
-  });
-  /********************************************************************** */
-  const decodedToken = localStorage.getItem("token")
-    ? jwt_decode(localStorage.getItem("token"))
-    : "";
+  /***************************************** */
 
-  /********************************************************************* */
   const login = async () => {
     try {
       const result = await axios.post("http://localhost:5000/login", {
@@ -38,7 +27,8 @@ const Login = () => {
             token: result.data.token,
           })
         );
-        decodedToken.role.role === "Admin"
+
+        result.data.role.role === "Admin"
           ? navigate("/admin")
           : navigate("/funding");
       }
@@ -83,12 +73,14 @@ const Login = () => {
           />
         </div>
 
-        <button onClick={login} className="btn btn-primary shadow">
-          Login
-        </button>
-        <a href="/register" className="btn btn-secondary m-4 shadow">
-          Go to Register
-        </a>
+        <Container>
+          <button onClick={login} className="btn btn-primary shadow">
+            Login
+          </button>
+          <a href="/register" className="btn btn-secondary m-5 shadow">
+            Go to Register
+          </a>
+        </Container>
       </div>
     </>
   );
