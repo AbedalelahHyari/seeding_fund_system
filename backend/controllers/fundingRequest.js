@@ -47,7 +47,7 @@ const getAllRequests = (req, res) => {
     .catch((err) => {
       res.status(500).json({
         success: false,
-        message: `No users Yet`,
+        message: `Server Error`,
         error: err,
       });
     });

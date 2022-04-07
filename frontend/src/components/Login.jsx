@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { loginRed } from "../../src/reducers/login/index";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 /**************************************************************************** */
@@ -10,7 +11,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  /************************************** */
+  /************************************************************************* */
   const dispatch = useDispatch();
   const state = useSelector((state) => {
     return {
@@ -18,8 +19,12 @@ const Login = () => {
       isLoggedIn: state.loginReducer.isLoggedIn,
     };
   });
+  /********************************************************************** */
+  const decodedToken = localStorage.getItem("token")
+    ? jwt_decode(localStorage.getItem("token"))
+    : "";
 
-  /*************************************** */
+  /********************************************************************* */
   const login = async () => {
     try {
       const result = await axios.post("http://localhost:5000/login", {
@@ -33,7 +38,9 @@ const Login = () => {
             token: result.data.token,
           })
         );
-        //navigate("/dashboard");
+        decodedToken.role.role === "Admin"
+          ? navigate("/admin")
+          : navigate("/funding");
       }
     } catch (error) {
       if (error.response && error.response.data) {
@@ -49,6 +56,7 @@ const Login = () => {
       }
     }
   };
+  /************************* */
   return (
     <>
       <div className="container w-25">

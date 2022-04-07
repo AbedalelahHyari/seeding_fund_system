@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Navigation from "./Navigation";
 /**************************************************** */
 const FundingRequest = () => {
   const [projectName, setProjectName] = useState("");
@@ -17,30 +18,46 @@ const FundingRequest = () => {
   });
   /******************************************************* */
   const submitFundingRequest = async () => {
-    const request = {
-      projectName,
-      projectDescription,
-      projectSector,
-    };
-    const res = await axios.post("http://localhost:5000/funding", request, {
-      headers: {
-        Authorization: `Bearer ${state.token}`,
-      },
-    });
-    if (res.data.success) {
-      toast.success(res.data.message, {
-        position: "top-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+    try {
+      const request = {
+        projectName,
+        projectDescription,
+        projectSector,
+      };
+      const res = await axios.post("http://localhost:5000/funding", request, {
+        headers: {
+          Authorization: `Bearer ${state.token}`,
+        },
       });
+      if (res.data.success) {
+        toast.success(res.data.message, {
+          position: "top-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        
+      }
+    } catch (error) {
+      if (error.response && error.response.data) {
+        toast.error(error.response.data.message, {
+          position: "top-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
     }
   };
   return (
     <>
+      <Navigation />
       <div className="container w-25">
         <h1 className="mb-5 mt-5">Fund Raising</h1>
         <div className="form-group">
@@ -76,7 +93,7 @@ const FundingRequest = () => {
           onClick={submitFundingRequest}
           className="btn btn-primary shadow"
         >
-          Submit The Request
+          Submit
         </button>
       </div>
     </>

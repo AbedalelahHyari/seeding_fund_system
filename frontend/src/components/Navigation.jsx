@@ -4,6 +4,8 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import { logoutRed } from "../../src/reducers/login/index";
+import jwt_decode from "jwt-decode";
+import logo from "../images/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 /************************************************************** */
 const Navigation = () => {
@@ -15,30 +17,77 @@ const Navigation = () => {
       isLoggedIn: state.loginReducer.isLoggedIn,
     };
   });
+  const decodedToken = localStorage.getItem("token")
+    ? jwt_decode(localStorage.getItem("token"))
+    : "";
+  /************************************** */
   return (
     <>
-      <Navbar bg="primary" variant="dark">
-        <Container>
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
-            <Nav.Link href="/funding">Fund Raising</Nav.Link>
-            <Nav.Link href="/admin">Admin Panel</Nav.Link>
-            <Button
-              onClick={() => {
-                dispatch(logoutRed());
-                localStorage.clear();
-                navigate("/");
-              }}
-              variant="outline-danger"
-            >
-              Logout
-            </Button>
-          </Nav>
-        </Container>
-      </Navbar>
+      {decodedToken.role.role === "Admin" ? (
+        <Navbar bg="light" variant="light">
+          <Container>
+            <Navbar.Brand href="/admin">
+              <img
+                src={logo}
+                width="150"
+                height="75"
+                className="d-inline-block align-top"
+                alt="React Bootstrap logo"
+              />
+            </Navbar.Brand>
+            <Nav className="me-auto">
+              {state.isLoggedIn ? (
+                <Button
+                  onClick={() => {
+                    dispatch(logoutRed());
+                    localStorage.clear();
+                    navigate("/");
+                  }}
+                  variant="outline-danger"
+                >
+                  Logout
+                </Button>
+              ) : (
+                <></>
+              )}
+            </Nav>
+          </Container>
+        </Navbar>
+      ) : (
+        <Navbar bg="light" variant="light">
+          <Container>
+            <Navbar.Brand href="#home">
+              <img
+                src={logo}
+                width="150"
+                height="75"
+                className="d-inline-block align-top"
+                alt="React Bootstrap logo"
+              />
+            </Navbar.Brand>
+            <Nav className="me-auto">
+              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="#pricing">my Funding Request</Nav.Link>
+              <Nav.Link href="/funding">Fund Raising</Nav.Link>
+              <Nav.Link href="/admin">Admin Panel</Nav.Link>
+              {state.isLoggedIn ? (
+                <Button
+                  onClick={() => {
+                    dispatch(logoutRed());
+                    localStorage.clear();
+                    navigate("/");
+                  }}
+                  variant="outline-danger"
+                >
+                  Logout
+                </Button>
+              ) : (
+                <></>
+              )}
+            </Nav>
+          </Container>
+        </Navbar>
+      )}
     </>
   );
 };

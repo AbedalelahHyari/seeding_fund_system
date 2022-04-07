@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 /********************************************** */
@@ -8,6 +9,7 @@ const Register = () => {
   const [country, setCountry] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   /*********************************************** */
   const register = async () => {
     try {
@@ -18,7 +20,6 @@ const Register = () => {
         password,
       };
       const res = await axios.post("http://localhost:5000/users", user);
-      console.log(res);
       if (res.data.success) {
         toast.success(res.data.message, {
           position: "top-right",
@@ -29,6 +30,9 @@ const Register = () => {
           draggable: true,
           progress: undefined,
         });
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
       }
     } catch (error) {
       if (error.response && error.response.data) {
