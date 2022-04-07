@@ -42,7 +42,7 @@ const Profile = () => {
     };
     getFundingRequestByUserId();
   }, []);
-  console.log(fundingRequests);
+
   /********************************************************** */
   return (
     <>

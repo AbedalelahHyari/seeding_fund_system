@@ -69,7 +69,6 @@ const Navigation = () => {
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/profile">Profile</Nav.Link>
               <Nav.Link href="/funding">Fund Raising</Nav.Link>
-              <Nav.Link href="/admin">Admin Panel</Nav.Link>
               {state.isLoggedIn ? (
                 <Button
                   onClick={() => {

@@ -1,13 +1,21 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import Table from "react-bootstrap/Table";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navigation from "./Navigation";
+import { Modal, Table, Form, Button } from "react-bootstrap";
+import { BsPencilSquare } from "react-icons/bs";
+
 /****************************************************************** */
 const AdminView = () => {
   const [fundingRequests, setFundingRequests] = useState([]);
+  const [status, setStatus] = useState("");
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [updateBox, setUpdateBox] = useState(false);
+  /**************************************************** */
   const state = useSelector((state) => {
     return {
       token: state.loginReducer.token,
@@ -44,9 +52,72 @@ const AdminView = () => {
     getAllFundingRequests();
   }, [state.token]);
   /********************************************************** */
+  const handleUpdateClick = (request) => {
+    setUpdateBox(!updateBox);
+
+    if (updateBox) updateFundingRequestById(request._id);
+  };
+
+  const updateFundingRequestById = async (id) => {
+    const body = {
+      status,
+    };
+    try {
+      const res = await axios.put(
+        `http://localhost:5000/funding/request/${id}`,
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${state.token}`,
+          },
+        }
+      );
+      if (res.data.success) {
+        console.log(`Done`);
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  /*********************************** */
   return (
     <>
       <Navigation />
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title> Update the status for the request</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3 ms-4 col-11">
+              <Form.Control
+                type="text"
+                placeholder="Request Status"
+                onChange={(e) => {
+                  setStatus(e.target.value);
+                }}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="success"
+            className="col-12"
+            onClick={() => {
+              updateFundingRequestById();
+            }}
+          >
+            Update
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <div className="container m-5">
         <h2 className="mb-5">Funding Request Table</h2>
         <Table striped bordered hover variant="success">
@@ -70,7 +141,15 @@ const AdminView = () => {
                     <td>{request.projectName}</td>
                     <td>{request.projectOwner.userName}</td>
                     <td>{request.projectSector}</td>
-                    <td>{request.status}</td>
+                    <td>
+                      {request.status}
+                      <BsPencilSquare
+                        id="update"
+                        onClick={() =>
+                          setShow(true) && handleUpdateClick(request)
+                        }
+                      />
+                    </td>
                   </tr>
                 );
               })

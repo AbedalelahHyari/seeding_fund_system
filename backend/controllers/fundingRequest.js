@@ -79,8 +79,29 @@ const getFundingRequestByUserId = (req, res) => {
       });
     });
 };
+/******************************************************************************* */
+const updateFundingRequestById = (req, res) => {
+  let fundingRequest_id = req.params.id;
+  fundingRequestModel
+    .findByIdAndUpdate(fundingRequest_id, req.body)
+    .then((result) => {
+      if (!result) {
+        return res.status(404).json({
+          success: false,
+          message: `The request not found`,
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: `The request ${fundingRequest_id}`,
+        request: result,
+      });
+    });
+};
+
 module.exports = {
   createNewFundingRequest,
   getAllRequests,
   getFundingRequestByUserId,
+  updateFundingRequestById,
 };

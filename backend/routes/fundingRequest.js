@@ -3,6 +3,7 @@ const {
   createNewFundingRequest,
   getAllRequests,
   getFundingRequestByUserId,
+  updateFundingRequestById,
 } = require("../controllers/fundingRequest");
 const fundingRequestRouter = express.Router();
 const authentication = require("../middleware/authentication");
@@ -15,7 +16,12 @@ fundingRequestRouter.get(
   authorization("manage_Funding_Requests"),
   getAllRequests
 );
-
+fundingRequestRouter.put(
+  "/request/:id",
+  authentication,
+  authorization("manage_Funding_Requests"),
+  updateFundingRequestById
+);
 fundingRequestRouter.get("/user", authentication, getFundingRequestByUserId);
 
 module.exports = fundingRequestRouter;

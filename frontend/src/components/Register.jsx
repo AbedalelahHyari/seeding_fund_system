@@ -67,7 +67,7 @@ const Register = () => {
   useEffect(() => {
     getAllRoles();
   }, []);
-  console.log(role);
+
   /********************************************************* */
   return (
     <>

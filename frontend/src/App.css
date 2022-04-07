@@ -1,3 +1,11 @@
 .App {
   text-align: center;
 }
+#updateIcon {
+  font-size: x-large;
+  cursor: pointer;
+  margin-left: 50px;
+}
+#updateIcon:hover {
+  color: rgb(37, 47, 195);
+}
