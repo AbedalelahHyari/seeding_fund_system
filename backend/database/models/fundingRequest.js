@@ -10,6 +10,11 @@ const fundingRequestSchema = new mongoose.Schema({
   projectDescription: { type: String },
   projectSector: { type: String, required: true },
   status: { type: String, required: true, default: "Pending" },
+  sector: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Sector",
+    required: true,
+  },
 });
 /******************************************************************************** */
 
