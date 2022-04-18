@@ -24,6 +24,7 @@ const Profile = () => {
           },
         });
         if (res.data.success) {
+          console.log(res.data.requests);
           setFundingRequests(res.data.requests);
         }
       } catch (error) {
@@ -69,7 +70,7 @@ const Profile = () => {
                     <td>{request._id}</td>
                     <td>{request.projectName}</td>
                     <td>{request.projectOwner.userName}</td>
-                    <td>{request.projectSector}</td>
+                    <td>{request.projectSector.sector}</td>
                     <td>{request.status}</td>
                   </tr>
                 );

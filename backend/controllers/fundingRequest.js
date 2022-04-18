@@ -56,7 +56,12 @@ const getAllRequests = (req, res) => {
 const getFundingRequestByUserId = (req, res) => {
   fundingRequestModel
     .find({ projectOwner: req.token.userId })
-    .populate("projectOwner", "userName country email -_id")
+
+    .populate([
+      { path: "projectOwner", select: "userName country email -_id" },
+      { path: "projectSector", select: "sector -_id" },
+    ])
+
     .then((result) => {
       if (result.length) {
         res.status(200).json({

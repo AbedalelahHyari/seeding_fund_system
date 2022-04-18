@@ -7,10 +7,9 @@ const fundingRequestSchema = new mongoose.Schema({
     required: true,
   },
   projectName: { type: String, required: true },
-  projectDescription: { type: String },
-  projectSector: { type: String, required: true },
+  projectDescription: { type: String, required: true },
   status: { type: String, required: true, default: "Pending" },
-  sector: {
+  projectSector: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Sector",
     required: true,
