@@ -66,7 +66,7 @@ const Navigation = () => {
               />
             </Navbar.Brand>
             <Nav className="me-auto">
-              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/home">Home</Nav.Link>
               <Nav.Link href="/profile">Profile</Nav.Link>
               <Nav.Link href="/funding">Fund Raising</Nav.Link>
               {state.isLoggedIn ? (

@@ -49,8 +49,8 @@ const Login = () => {
   /************************* */
   return (
     <>
-      <div className="container w-25">
-        <h1 className="mb-5 mt-5">Login</h1>
+      <div className="container w-25 mt-5">
+        <h1 className="mb-5">Login</h1>
         <div className="form-group">
           <input
             required
