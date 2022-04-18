@@ -12,6 +12,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [roles, setRoles] = useState([]);
   const [role, setRole] = useState("");
+
   const navigate = useNavigate();
   /*********************************************** */
   const register = async () => {
@@ -63,7 +64,8 @@ const Register = () => {
       throw error;
     }
   };
-  /****************************** */
+  /*********************************************************** */
+
   useEffect(() => {
     getAllRoles();
   }, []);

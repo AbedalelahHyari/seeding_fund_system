@@ -1,14 +1,16 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navigation from "./Navigation";
+import Form from "react-bootstrap/Form";
 /**************************************************** */
 const FundingRequest = () => {
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [projectSector, setProjectSector] = useState("");
+  const [sectors, setSectors] = useState([]);
   /********************************************************** */
   const state = useSelector((state) => {
     return {
@@ -39,7 +41,6 @@ const FundingRequest = () => {
           draggable: true,
           progress: undefined,
         });
-        
       }
     } catch (error) {
       if (error.response && error.response.data) {
@@ -55,6 +56,21 @@ const FundingRequest = () => {
       }
     }
   };
+  /************************************************************* */
+  const getAllSectors = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/sectors");
+      if (res.data.success) {
+        setSectors(res.data.sectors);
+        console.log(res.data.sectors);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    getAllSectors();
+  }, []);
   return (
     <>
       <Navigation />
@@ -80,15 +96,27 @@ const FundingRequest = () => {
             className="form-control"
           />
         </div>
-        <input
-          required
+        <Form.Select
           onChange={(e) => {
             setProjectSector(e.target.value);
           }}
-          type="text"
-          className="form-control mb-5"
-          placeholder="Project Sector"
-        />
+          className="mb-5"
+          aria-label="Default select example"
+        >
+          <option>Sector</option>
+          {sectors.length ? (
+            sectors.map((sector, index) => {
+              return (
+                <option key={index} value={sector._id}>
+                  {sector.sector}
+                </option>
+              );
+            })
+          ) : (
+            <></>
+          )}
+        </Form.Select>
+
         <button
           onClick={submitFundingRequest}
           className="btn btn-primary shadow"

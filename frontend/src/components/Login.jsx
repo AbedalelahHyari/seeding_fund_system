@@ -30,7 +30,7 @@ const Login = () => {
 
         result.data.role.role === "Admin"
           ? navigate("/admin")
-          : navigate("/funding");
+          : navigate("/home");
       }
     } catch (error) {
       if (error.response && error.response.data) {
