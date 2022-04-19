@@ -56,7 +56,7 @@ const Navigation = () => {
       ) : (
         <Navbar bg="light" variant="light">
           <Container>
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href="/home">
               <img
                 src={logo}
                 width="150"
@@ -69,8 +69,10 @@ const Navigation = () => {
               <Nav.Link href="/home">Home</Nav.Link>
               <Nav.Link href="/profile">Profile</Nav.Link>
               <Nav.Link href="/funding">Fund Raising</Nav.Link>
+
               {state.isLoggedIn ? (
                 <Button
+                  className="ms-auto"
                   onClick={() => {
                     dispatch(logoutRed());
                     localStorage.clear();
