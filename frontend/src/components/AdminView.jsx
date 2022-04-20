@@ -23,7 +23,6 @@ const AdminView = () => {
   });
 
   //==============================================================
-  console.log(fundingRequests);
   const getAllFundingRequests = async () => {
     try {
       const res = await axios.get("http://localhost:5000/funding", {
@@ -51,13 +50,17 @@ const AdminView = () => {
   //==============================================================
   useEffect(() => {
     getAllFundingRequests();
-  }, []);
+  }, [show]);
 
   //==============================================================
   const handleUpdateClick = (request) => {
+    setShow(true);
     setUpdateBox(!updateBox);
-
-    if (updateBox) updateFundingRequestById(request._id);
+    console.log(request._id);
+    localStorage.setItem("id", request._id);
+    if (updateBox) {
+      updateFundingRequestById(request._id);
+    }
   };
   //==============================================================
   const updateFundingRequestById = async (id) => {
@@ -75,7 +78,8 @@ const AdminView = () => {
         }
       );
       if (res.data.success) {
-        console.log(`Done`);
+        setShow(false) && getAllFundingRequests();
+        console.log(`Done updated`);
       }
     } catch (error) {
       throw error;
@@ -112,7 +116,7 @@ const AdminView = () => {
             variant="success"
             className="col-12"
             onClick={() => {
-              updateFundingRequestById();
+              updateFundingRequestById(localStorage.getItem("id"));
             }}
           >
             Update
@@ -147,9 +151,9 @@ const AdminView = () => {
                       {request.status}
                       <BsPencilSquare
                         id="update"
-                        onClick={() =>
-                          setShow(true) && handleUpdateClick(request)
-                        }
+                        onClick={() => {
+                          handleUpdateClick(request);
+                        }}
                       />
                     </td>
                   </tr>

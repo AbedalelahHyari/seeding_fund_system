@@ -1,7 +1,7 @@
 const usersModel = require("../database/models/users");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-  
+
 /*************************************** */
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -15,7 +15,6 @@ const login = async (req, res) => {
           message: `The email doesn't exist`,
         });
       }
-      /**************** */
       try {
         const valid = await bcrypt.compare(password, result.password);
         if (!valid) {

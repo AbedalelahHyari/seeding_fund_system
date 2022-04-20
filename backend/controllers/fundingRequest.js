@@ -89,7 +89,7 @@ const getFundingRequestByUserId = (req, res) => {
 const updateFundingRequestById = (req, res) => {
   let fundingRequest_id = req.params.id;
   fundingRequestModel
-    .findByIdAndUpdate(fundingRequest_id, req.body)
+    .findByIdAndUpdate(fundingRequest_id, req.body, { new: true })
     .then((result) => {
       if (!result) {
         return res.status(404).json({
@@ -101,6 +101,13 @@ const updateFundingRequestById = (req, res) => {
         success: true,
         message: `The request ${fundingRequest_id}`,
         request: result,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Server Error",
+        error: err,
       });
     });
 };
