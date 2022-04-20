@@ -2,6 +2,7 @@ import React from "react";
 import { Accordion, Carousel, Container } from "react-bootstrap";
 import Footer from "./Footer";
 import Navigation from "./Navigation";
+//===============================================================
 const Home = () => {
   return (
     <>
@@ -29,10 +30,8 @@ const Home = () => {
           <Accordion.Item eventKey="0">
             <Accordion.Header>How I can Apply</Accordion.Header>
             <Accordion.Body>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              You should go to fund raising section in the navigation bar and
+              submit all the required information
             </Accordion.Body>
           </Accordion.Item>
           <Accordion.Item eventKey="1">
@@ -40,10 +39,7 @@ const Home = () => {
               What are the sectors that can involve in the program
             </Accordion.Header>
             <Accordion.Body>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              The company support all the sectors work to improve the society.
             </Accordion.Body>
           </Accordion.Item>
         </Accordion>

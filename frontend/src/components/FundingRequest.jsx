@@ -5,20 +5,20 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navigation from "./Navigation";
 import Form from "react-bootstrap/Form";
-/**************************************************** */
+//===================================================================
 const FundingRequest = () => {
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [projectSector, setProjectSector] = useState("");
   const [sectors, setSectors] = useState([]);
-  /********************************************************** */
+  //=================================================================
   const state = useSelector((state) => {
     return {
       token: state.loginReducer.token,
       isLoggedIn: state.loginReducer.isLoggedIn,
     };
   });
-  /******************************************************* */
+  //=================================================================
   const submitFundingRequest = async () => {
     try {
       const request = {
@@ -56,26 +56,27 @@ const FundingRequest = () => {
       }
     }
   };
-  /************************************************************* */
+  //=================================================================
   const getAllSectors = async () => {
     try {
       const res = await axios.get("http://localhost:5000/sectors");
       if (res.data.success) {
         setSectors(res.data.sectors);
-        console.log(res.data.sectors);
       }
     } catch (err) {
-      console.log(err);
+      throw err;
     }
   };
+  //=================================================================
   useEffect(() => {
     getAllSectors();
   }, []);
+  //=================================================================
   return (
     <>
       <Navigation />
       <div className="container w-25">
-        <h1 className="mb-5 mt-5">Fund Raising</h1>
+        <h2 className="mb-5 mt-5">Fund Raising Request</h2>
         <div className="form-group">
           <input
             required
@@ -89,6 +90,7 @@ const FundingRequest = () => {
         </div>
         <div className="form-group mb-5">
           <textarea
+            rows={4}
             onChange={(e) => {
               setProjectDescription(e.target.value);
             }}
@@ -116,7 +118,6 @@ const FundingRequest = () => {
             <></>
           )}
         </Form.Select>
-
         <button
           onClick={submitFundingRequest}
           className="btn btn-primary shadow"

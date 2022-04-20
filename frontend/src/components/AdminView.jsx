@@ -7,15 +7,14 @@ import Navigation from "./Navigation";
 import { Modal, Table, Form, Button } from "react-bootstrap";
 import { BsPencilSquare } from "react-icons/bs";
 
-/****************************************************************** */
+//==================================================================
 const AdminView = () => {
   const [fundingRequests, setFundingRequests] = useState([]);
   const [status, setStatus] = useState("");
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [updateBox, setUpdateBox] = useState(false);
-  /**************************************************** */
+  //==============================================================
   const state = useSelector((state) => {
     return {
       token: state.loginReducer.token,
@@ -23,41 +22,44 @@ const AdminView = () => {
     };
   });
 
-  /************************************ */
-  useEffect(() => {
-    const getAllFundingRequests = async () => {
-      try {
-        const res = await axios.get("http://localhost:5000/funding", {
-          headers: {
-            Authorization: `Bearer ${state.token}`,
-          },
-        });
-        if (res.data.success) {
-          setFundingRequests(res.data.requests);
-        }
-      } catch (error) {
-        if (error.response && error.response.data) {
-          toast.error(error.response.data.message, {
-            position: "top-right",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        }
+  //==============================================================
+  console.log(fundingRequests);
+  const getAllFundingRequests = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/funding", {
+        headers: {
+          Authorization: `Bearer ${state.token}`,
+        },
+      });
+      if (res.data.success) {
+        setFundingRequests(res.data.requests);
       }
-    };
+    } catch (error) {
+      if (error.response && error.response.data) {
+        toast.error(error.response.data.message, {
+          position: "top-right",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
+    }
+  };
+  //==============================================================
+  useEffect(() => {
     getAllFundingRequests();
-  }, [state.token]);
-  /********************************************************** */
+  }, []);
+
+  //==============================================================
   const handleUpdateClick = (request) => {
     setUpdateBox(!updateBox);
 
     if (updateBox) updateFundingRequestById(request._id);
   };
-
+  //==============================================================
   const updateFundingRequestById = async (id) => {
     const body = {
       status,
@@ -79,8 +81,7 @@ const AdminView = () => {
       throw error;
     }
   };
-
-  /*********************************** */
+  //================================================================
   return (
     <>
       <Navigation />
@@ -118,8 +119,9 @@ const AdminView = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
       <div className="container m-5">
-        <h2 className="mb-5">Funding Request Table</h2>
+        <h2 className="mb-5">Funding Requests Dashboard</h2>
         <Table striped bordered hover variant="success">
           <thead>
             <tr>
@@ -140,7 +142,7 @@ const AdminView = () => {
                     <td>{request._id}</td>
                     <td>{request.projectName}</td>
                     <td>{request.projectOwner.userName}</td>
-                    <td>{request.projectSector}</td>
+                    <td>{request.projectSector.sector}</td>
                     <td>
                       {request.status}
                       <BsPencilSquare

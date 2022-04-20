@@ -1,5 +1,5 @@
 const fundingRequestModel = require("../database/models/fundingRequest");
-
+//========================================================================
 const createNewFundingRequest = (req, res) => {
   const { projectName, projectDescription, projectSector } = req.body;
   const newFundingRequest = new fundingRequestModel({
@@ -25,11 +25,14 @@ const createNewFundingRequest = (req, res) => {
       });
     });
 };
-/**************************************************************************************** */
+//==================================================================================
 const getAllRequests = (req, res) => {
   fundingRequestModel
     .find({})
-    .populate("projectOwner", "userName country email -_id")
+    .populate([
+      { path: "projectOwner", select: "userName country email -_id" },
+      { path: "projectSector", select: "sector -_id" },
+    ])
     .then((result) => {
       if (result.length) {
         res.status(200).json({
@@ -52,16 +55,14 @@ const getAllRequests = (req, res) => {
       });
     });
 };
-/************************************************************************************* */
+//=========================================================================
 const getFundingRequestByUserId = (req, res) => {
   fundingRequestModel
     .find({ projectOwner: req.token.userId })
-
     .populate([
       { path: "projectOwner", select: "userName country email -_id" },
       { path: "projectSector", select: "sector -_id" },
     ])
-
     .then((result) => {
       if (result.length) {
         res.status(200).json({
@@ -84,7 +85,7 @@ const getFundingRequestByUserId = (req, res) => {
       });
     });
 };
-/******************************************************************************* */
+//===========================================================================
 const updateFundingRequestById = (req, res) => {
   let fundingRequest_id = req.params.id;
   fundingRequestModel
@@ -103,7 +104,7 @@ const updateFundingRequestById = (req, res) => {
       });
     });
 };
-
+//=========================================================================
 module.exports = {
   createNewFundingRequest,
   getAllRequests,

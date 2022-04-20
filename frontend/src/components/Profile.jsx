@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navigation from "./Navigation";
+//=================================================================
 const Profile = () => {
   const [fundingRequests, setFundingRequests] = useState([]);
   const state = useSelector((state) => {
@@ -14,7 +15,7 @@ const Profile = () => {
     };
   });
 
-  /************************* */
+  //=================================================================
   useEffect(() => {
     const getFundingRequestByUserId = async () => {
       try {
@@ -24,7 +25,6 @@ const Profile = () => {
           },
         });
         if (res.data.success) {
-          console.log(res.data.requests);
           setFundingRequests(res.data.requests);
         }
       } catch (error) {
@@ -49,8 +49,8 @@ const Profile = () => {
     <>
       <Navigation />
       <div className="container m-5">
-        <h2 className="mb-5">Funding Request Table</h2>
-        <Table striped bordered hover variant="success">
+        <h2 className="mb-5">Submitted Request</h2>
+        <Table striped bordered hover variant="success shadow">
           <thead>
             <tr>
               <th>#</th>
