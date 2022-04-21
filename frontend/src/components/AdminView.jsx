@@ -34,33 +34,19 @@ const AdminView = () => {
         setFundingRequests(res.data.requests);
       }
     } catch (error) {
-      if (error.response && error.response.data) {
-        toast.error(error.response.data.message, {
-          position: "top-right",
-          autoClose: 4000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-      }
+      console.log(error);
     }
   };
   //==============================================================
   useEffect(() => {
-    getAllFundingRequests();
+    state.token && getAllFundingRequests();
   }, [show]);
 
   //==============================================================
   const handleUpdateClick = (request) => {
     setShow(true);
     setUpdateBox(!updateBox);
-    console.log(request._id);
     localStorage.setItem("id", request._id);
-    if (updateBox) {
-      updateFundingRequestById(request._id);
-    }
   };
   //==============================================================
   const updateFundingRequestById = async (id) => {
@@ -78,11 +64,10 @@ const AdminView = () => {
         }
       );
       if (res.data.success) {
-        setShow(false) && getAllFundingRequests();
-        console.log(`Done updated`);
+        getAllFundingRequests() && handleClose();
       }
     } catch (error) {
-      throw error;
+      console.log(error);
     }
   };
   //================================================================
@@ -150,6 +135,7 @@ const AdminView = () => {
                     <td>
                       {request.status}
                       <BsPencilSquare
+                        className="m-3"
                         id="update"
                         onClick={() => {
                           handleUpdateClick(request);

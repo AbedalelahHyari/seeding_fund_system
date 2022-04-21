@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 // This function will verify the user credentials like email and password
-const authentication = (req, res, next) => {
+const authentication = async (req, res, next) => {
   try {
     if (!req.headers.authorization) {
       return res.status(403).json({
@@ -9,7 +9,7 @@ const authentication = (req, res, next) => {
         message: `Forbidden`,
       });
     }
-    const token = req.headers.authorization.split(" ").pop();
+    const token = await req.headers.authorization.split(" ").pop();
 
     jwt.verify(token, process.env.SECRET, (err, result) => {
       if (err) {
